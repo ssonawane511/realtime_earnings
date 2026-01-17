@@ -1,11 +1,10 @@
+import { env } from "cloudflare:workers";
+import { httpServerHandler } from "cloudflare:node";
 import express from "express";
 import type { Request, Response } from "express";
 import cors from "cors";
-import dotenv from "dotenv";
-dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 4000;
 
 const dummyData = {
   user: {
@@ -87,10 +86,13 @@ app.get("/api/accounts/:accountNumber/transactions", (req: Request, res: Respons
     (tx) => tx.accountNumber === accountNumber
   );
   res.json(transactions);
-})
-
-
-
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
 });
+
+// Health check endpoint for root path
+app.get("/", (req: Request, res: Response) => {
+  res.json({ message: "Express.js running on Cloudflare Workers!" });
+});
+
+// Initialize Express server for Cloudflare Workers
+app.listen(3000);
+export default httpServerHandler({ port: 3000 });
