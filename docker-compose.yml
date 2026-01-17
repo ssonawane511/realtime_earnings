@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  moneytracker-backend:
+    build:
+      context: .
+      dockerfile: apps/backend/Dockerfile
+    container_name: moneytracker-backend
+    ports:
+      - "4000:4000"
+    environment:
+      - PORT=4000
+      - NODE_ENV=production
+    networks:
+      - moneytracker-network
+    restart: unless-stopped
+
+  moneytracker-frontend:
+    build:
+      context: .
+      dockerfile: apps/frontend/Dockerfile
+      args:
+        - VITE_API_BASE_URL=http://localhost:4000/api
+    container_name: moneytracker-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - moneytracker-backend
+    networks:
+      - moneytracker-network
+    restart: unless-stopped
+
+networks:
+  moneytracker-network:
+    driver: bridge

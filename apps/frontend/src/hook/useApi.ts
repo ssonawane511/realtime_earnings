@@ -1,4 +1,4 @@
-import React, { useState, useEffect, use } from "react";
+import { useState, useEffect } from "react";
 import type { user, account, transaction } from "../type";
 import { getUser, getAccounts, getTransactions } from "../api";
 
