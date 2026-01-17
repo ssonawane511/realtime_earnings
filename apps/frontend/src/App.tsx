@@ -1,10 +1,11 @@
-import React from 'react'
+import Home from './pages/Home'
+import './global.css'
 
 const App = () => {
   return (
-    <>
-      <p>Money Tracker</p>
-    </>
+    <div className="app-container">
+      <Home />
+    </div>
   )
 }
 
